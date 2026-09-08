@@ -1,4 +1,4 @@
-const CACHE = "hellomail-v6";
+const CACHE = "hellomail-v7";
 
 const ASSETS = [
   "/",

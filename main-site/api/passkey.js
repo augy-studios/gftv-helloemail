@@ -17,16 +17,15 @@ export default async function handler(req, res) {
 
     const {
         action
-    } = req.body;
+    } = req.body || {};
     const host = req.headers.host;
     const rpID = host.split(':')[0];
     const expectedOrigin = `https://${host}`;
 
-    // Get current user from token if header is provided
     const authHeader = req.headers.authorization;
     let currentUser = null;
     if (authHeader) {
-        const token = authHeader.replace('Bearer ', '');
+        const token = authHeader.replace('Bearer ', '').trim();
         const {
             data: session
         } = await supabase
@@ -46,7 +45,7 @@ export default async function handler(req, res) {
         const options = await generateRegistrationOptions({
             rpName: 'GFTV HelloMail',
             rpID,
-            userID: currentUser.id,
+            userID: Buffer.from(currentUser.id),
             userName: currentUser.username,
             attestationType: 'none',
         });
@@ -208,7 +207,7 @@ export default async function handler(req, res) {
         });
     }
 
-    res.status(400).json({
+    return res.status(400).json({
         error: 'Invalid action'
     });
 }
