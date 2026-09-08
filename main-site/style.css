@@ -20,14 +20,6 @@
   -ms-user-select: none;
 }
 
-:link {
-  color: #6f6;
-}
-
-:visited {
-  color: #66f;
-}
-
 :root {
   --brand-color: #ccffcc;
   --bg-color: #f2faf2;

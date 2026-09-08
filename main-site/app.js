@@ -114,6 +114,18 @@ async function showDashboard() {
     document.getElementById('authSection').style.display = 'none';
     document.getElementById('dashboardSection').style.display = 'block';
     loadAliases();
+
+    if (user && user.is_admin) {
+        let adminBtn = document.getElementById('adminPanelBtn');
+        if (!adminBtn) {
+            adminBtn = document.createElement('a');
+            adminBtn.id = 'adminPanelBtn';
+            adminBtn.href = '/admin/';
+            adminBtn.className = 'btn btn-secondary';
+            adminBtn.innerText = 'Admin Panel';
+            document.querySelector('.user-actions').prepend(adminBtn);
+        }
+    }
 }
 
 async function loadAliases() {

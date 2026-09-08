@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <link rel="manifest" href="/manifest.json" />
+
+    <meta charset="utf-8">
+    <title>GFTV HelloMail | Admin Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="An email forwarding service for @globalfurry.tv emails.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="GFTV HelloMail | Admin Panel" />
+    <meta property="og:site_name" content="GFTV HelloMail | Admin Panel" />
+    <meta property="og:description" content="An email forwarding service for @globalfurry.tv emails." />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jua">
+    <link rel="stylesheet" href="/style.css">
+    <meta name="theme-color" content="#fedc00" />
+
+    <!-- Embed Image -->
+    <link rel="apple-touch-icon" href="/GHM-main.png">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image:src" content="/GHM-main.png">
+    <meta property="og:image" content="/GHM-main.png" />
+</head>
+
+<body>
+    <div class="glass-background"></div>
+
+    <header class="navbar glass-card">
+        <div class="logo">
+            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            <span>HelloMail Admin Panel</span>
+        </div>
+        <div class="nav-controls">
+            <a href="/" class="btn btn-secondary nav-btn">
+                <span>User Dashboard</span>
+            </a>
+            <button id="openThemeModal" class="btn btn-secondary nav-btn">
+                <span>Theme</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="adminDashboard" class="glass-card dashboard-card">
+            <div class="dashboard-header">
+                <h2>User Approval Management</h2>
+                <button id="logoutBtn" class="btn btn-danger">Logout</button>
+            </div>
+
+            <div class="table-container">
+                <table class="alias-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Registered</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userList">
+                        <tr>
+                            <td colspan="6">Loading users...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <div id="themeModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h3>Choose Theme</h3>
+                <button id="closeThemeModal" class="btn-close">&times;</button>
+            </div>
+            <div class="theme-options">
+                <button class="theme-btn" data-theme="classic" style="background-color: #ccffcc;">Classic</button>
+                <button class="theme-btn" data-theme="not-green-1" style="background-color: #ffcccc;">Not green
+                    1</button>
+                <button class="theme-btn" data-theme="not-green-2" style="background-color: #ccccff;">Not green
+                    2</button>
+                <button class="theme-btn" data-theme="not-green-3" style="background-color: #ffffcc;">Not green
+                    3</button>
+                <button class="theme-btn" data-theme="not-green-4" style="background-color: #ffccff;">Not green
+                    4</button>
+                <button class="theme-btn" data-theme="not-green-5" style="background-color: #ccffff;">Not green
+                    5</button>
+                <button class="theme-btn" data-theme="really-light" style="background-color: #ffffff;">Really really
+                    light green</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/admin/admin.js"></script>
+</body>
+
+</html>

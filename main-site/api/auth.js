@@ -13,16 +13,20 @@ export default async function handler(req, res) {
         email
     } = req.body;
 
+    // 1. REGISTER
     if (action === 'register') {
+        // New accounts default to is_approved = false
         const {
             data: user,
             error
         } = await supabase
-            .from('helloemail_users')
+            .from('hellomail_users')
             .insert([{
                 username,
                 email,
-                password_hash: password
+                password_hash: password,
+                is_approved: false,
+                is_admin: false
             }])
             .select()
             .single();
@@ -31,23 +35,17 @@ export default async function handler(req, res) {
             error: error.message
         });
 
-        const token = Math.random().toString(36).substring(2) + Date.now().toString(36);
-        await supabase.from('helloemail_sessions').insert([{
-            token,
-            user_id: user.id,
-            expires_at: new Date(Date.now() + 86400000 * 7).toISOString()
-        }]);
-
         return res.status(200).json({
-            token
+            message: 'Account created successfully. An administrator must approve your access before you can log in.'
         });
     }
 
+    // 2. LOGIN
     if (action === 'login') {
         const {
             data: user
         } = await supabase
-            .from('helloemail_users')
+            .from('hellomail_users')
             .select('*')
             .eq('username', username)
             .eq('password_hash', password)
@@ -57,15 +55,27 @@ export default async function handler(req, res) {
             error: 'Invalid credentials'
         });
 
+        // Block unapproved users
+        if (!user.is_approved) {
+            return res.status(403).json({
+                error: 'Your account is pending administrator approval.'
+            });
+        }
+
         const token = Math.random().toString(36).substring(2) + Date.now().toString(36);
-        await supabase.from('helloemail_sessions').insert([{
+        await supabase.from('hellomail_sessions').insert([{
             token,
             user_id: user.id,
             expires_at: new Date(Date.now() + 86400000 * 7).toISOString()
         }]);
 
         return res.status(200).json({
-            token
+            token,
+            user: {
+                id: user.id,
+                username: user.username,
+                is_admin: user.is_admin
+            }
         });
     }
 
