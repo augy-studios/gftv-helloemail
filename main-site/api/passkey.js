@@ -77,16 +77,19 @@ export default async function handler(req, res) {
         });
 
         if (verification.verified && verification.registrationInfo) {
-            const {
-                credentialID,
-                credentialPublicKey,
-                counter
-            } = verification.registrationInfo;
+            const info = verification.registrationInfo;
+
+            const rawId = info.credentialID || info.credential?.id;
+            const rawPubKey = info.credentialPublicKey || info.credential?.publicKey;
+            const counter = info.counter ?? info.credential?.counter ?? 0;
+
+            const credential_id = typeof rawId === 'string' ? rawId : Buffer.from(rawId).toString('base64url');
+            const public_key = typeof rawPubKey === 'string' ? rawPubKey : Buffer.from(rawPubKey).toString('base64url');
 
             await supabase.from('hellomail_passkeys').insert([{
                 user_id: currentUser.id,
-                credential_id: Buffer.from(credentialID).toString('base64url'),
-                public_key: Buffer.from(credentialPublicKey).toString('base64url'),
+                credential_id,
+                public_key,
                 counter,
             }]);
 
