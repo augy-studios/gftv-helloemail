@@ -18,7 +18,7 @@ export default async function handler(req, res) {
             data: user,
             error
         } = await supabase
-            .from('helloemail_users')
+            .from('hellomail_users')
             .insert([{
                 username,
                 email,
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
         });
 
         const token = Math.random().toString(36).substring(2) + Date.now().toString(36);
-        await supabase.from('helloemail_sessions').insert([{
+        await supabase.from('hellomail_sessions').insert([{
             token,
             user_id: user.id,
             expires_at: new Date(Date.now() + 86400000 * 7).toISOString()
@@ -47,7 +47,7 @@ export default async function handler(req, res) {
         const {
             data: user
         } = await supabase
-            .from('helloemail_users')
+            .from('hellomail_users')
             .select('*')
             .eq('username', username)
             .eq('password_hash', password)
@@ -58,7 +58,7 @@ export default async function handler(req, res) {
         });
 
         const token = Math.random().toString(36).substring(2) + Date.now().toString(36);
-        await supabase.from('helloemail_sessions').insert([{
+        await supabase.from('hellomail_sessions').insert([{
             token,
             user_id: user.id,
             expires_at: new Date(Date.now() + 86400000 * 7).toISOString()

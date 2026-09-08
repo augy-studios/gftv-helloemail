@@ -1,5 +1,5 @@
 let isRegisterMode = false;
-let authToken = localStorage.getItem('helloemail_token');
+let authToken = localStorage.getItem('hellomail_token');
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch(console.error);
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initTheme() {
-    const savedTheme = localStorage.getItem('helloemail_theme') || 'classic';
+    const savedTheme = localStorage.getItem('hellomail_theme') || 'classic';
     document.documentElement.setAttribute('data-theme', savedTheme);
 }
 
@@ -26,7 +26,7 @@ function bindEvents() {
         btn.onclick = (e) => {
             const theme = e.target.getAttribute('data-theme');
             document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('helloemail_theme', theme);
+            localStorage.setItem('hellomail_theme', theme);
             document.getElementById('themeModal').style.display = 'none';
         };
     });
@@ -61,7 +61,7 @@ function bindEvents() {
         const data = await res.json();
         if (res.ok && data.token) {
             authToken = data.token;
-            localStorage.setItem('helloemail_token', authToken);
+            localStorage.setItem('hellomail_token', authToken);
             showDashboard();
         } else {
             alert(data.error || 'Authentication failed');
@@ -77,7 +77,7 @@ function bindEvents() {
     };
 
     document.getElementById('logoutBtn').onclick = () => {
-        localStorage.removeItem('helloemail_token');
+        localStorage.removeItem('hellomail_token');
         authToken = null;
         document.getElementById('authSection').style.display = 'block';
         document.getElementById('dashboardSection').style.display = 'none';
