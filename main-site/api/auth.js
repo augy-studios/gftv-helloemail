@@ -1,6 +1,7 @@
 import {
     createClient
 } from '@supabase/supabase-js';
+import bcrypt from 'bcryptjs';
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
 
@@ -15,7 +16,9 @@ export default async function handler(req, res) {
 
     // 1. REGISTER
     if (action === 'register') {
-        // New accounts default to is_approved = false
+        // Hash password with salt rounds = 10
+        const password_hash = await bcrypt.hash(password, 10);
+
         const {
             data: user,
             error
@@ -24,7 +27,7 @@ export default async function handler(req, res) {
             .insert([{
                 username,
                 email,
-                password_hash: password,
+                password_hash,
                 is_approved: false,
                 is_admin: false
             }])
@@ -42,20 +45,26 @@ export default async function handler(req, res) {
 
     // 2. LOGIN
     if (action === 'login') {
+        // Fetch user by username first
         const {
             data: user
         } = await supabase
             .from('hellomail_users')
             .select('*')
             .eq('username', username)
-            .eq('password_hash', password)
             .single();
 
         if (!user) return res.status(401).json({
             error: 'Invalid credentials'
         });
 
-        // Block unapproved users
+        // Verify hashed password
+        const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+        if (!isPasswordValid) return res.status(401).json({
+            error: 'Invalid credentials'
+        });
+
+        // Check approval status
         if (!user.is_approved) {
             return res.status(403).json({
                 error: 'Your account is pending administrator approval.'
