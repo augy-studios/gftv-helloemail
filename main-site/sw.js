@@ -1,12 +1,12 @@
-const CACHE = "template-offline-v1";
+const CACHE = "hellomail-v1";
 
 const ASSETS = [
   "/",
   "/index.html",
   "/style.css",
   "/script.js",
-  "/templateicon1-192.png",
-  "/templateicon1-512.png",
+  "/GHM-192.png",
+  "/GHM-512.png",
   "/favicon.ico",
   "/manifest.json"
 ];
