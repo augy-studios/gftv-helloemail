@@ -1,10 +1,10 @@
-const CACHE = "hellomail-v1";
+const CACHE = "hellomail-v2";
 
 const ASSETS = [
   "/",
   "/index.html",
   "/style.css",
-  "/script.js",
+  "/app.js",
   "/GHM-192.png",
   "/GHM-512.png",
   "/favicon.ico",
