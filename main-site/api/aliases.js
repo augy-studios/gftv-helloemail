@@ -2,7 +2,7 @@ import {
     createClient
 } from '@supabase/supabase-js';
 
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
 
 async function getUserFromToken(req) {
     const token = req.headers.authorization?.replace('Bearer ', '');
@@ -11,7 +11,7 @@ async function getUserFromToken(req) {
     const {
         data: session
     } = await supabase
-        .from('hellomail_sessions')
+        .from('helloemail_sessions')
         .select('user_id')
         .eq('token', token)
         .single();
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
         const {
             data: aliases
         } = await supabase
-            .from('hellomail_aliases')
+            .from('helloemail_aliases')
             .select('*')
             .eq('user_id', userId);
         return res.status(200).json({
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
                 data,
                 error
             } = await supabase
-                .from('hellomail_aliases')
+                .from('helloemail_aliases')
                 .insert([{
                     user_id: userId,
                     alias_address,
@@ -68,7 +68,7 @@ export default async function handler(req, res) {
         }
 
         if (action === 'delete') {
-            await supabase.from('hellomail_aliases').delete().eq('id', id).eq('user_id', userId);
+            await supabase.from('helloemail_aliases').delete().eq('id', id).eq('user_id', userId);
             return res.status(200).json({
                 success: true
             });

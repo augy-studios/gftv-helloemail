@@ -2,7 +2,7 @@ import {
     createClient
 } from '@supabase/supabase-js';
 
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') return res.status(405).end();
@@ -18,7 +18,7 @@ export default async function handler(req, res) {
             data: user,
             error
         } = await supabase
-            .from('hellomail_users')
+            .from('helloemail_users')
             .insert([{
                 username,
                 email,
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
         });
 
         const token = Math.random().toString(36).substring(2) + Date.now().toString(36);
-        await supabase.from('hellomail_sessions').insert([{
+        await supabase.from('helloemail_sessions').insert([{
             token,
             user_id: user.id,
             expires_at: new Date(Date.now() + 86400000 * 7).toISOString()
@@ -47,7 +47,7 @@ export default async function handler(req, res) {
         const {
             data: user
         } = await supabase
-            .from('hellomail_users')
+            .from('helloemail_users')
             .select('*')
             .eq('username', username)
             .eq('password_hash', password)
@@ -58,7 +58,7 @@ export default async function handler(req, res) {
         });
 
         const token = Math.random().toString(36).substring(2) + Date.now().toString(36);
-        await supabase.from('hellomail_sessions').insert([{
+        await supabase.from('helloemail_sessions').insert([{
             token,
             user_id: user.id,
             expires_at: new Date(Date.now() + 86400000 * 7).toISOString()
